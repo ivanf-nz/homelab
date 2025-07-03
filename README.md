@@ -168,7 +168,8 @@ All STLs are available in the **main directory of this repository**.
 These models were built using base measurements and STLs provided by:
 
 - [Raspberry Pi 10-inch Rack Mount by esluyter](https://www.printables.com/model/1185545-raspberry-pi-3b4b5b-10-inch-rack-mount) – used for Pi alignment and sizing  
-- [Modular 10-inch Rack by MickMake](https://www.printables.com/model/1090551-modular-10-inch-server-rack-reworked/files) – used for the blank 1U rack faceplates and the overall rack frame  
+- [Modular 10-inch Rack by MickMake](https://www.printables.com/model/1090551-modular-10-inch-server-rack-reworked/files) – used for the blank 1U rack faceplates and the overall rack frame
+- [RackStuds by Eirik Jeppesen](https://www.printables.com/model/1233475-rackstuds-for-m6-106-racks/files) - used for the 3d printed M6 screws because proper server rack screws are very expensive  
 
 ---
 
