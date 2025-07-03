@@ -19,7 +19,7 @@ All services are hosted on a **Topton N100 mini PC** running **Proxmox VE**. Pro
 
 This homelab is built around a **Topton N100 mini PC**, running [Proxmox VE](https://www.proxmox.com) directly on bare metal. All core services—firewalling, DNS filtering, VPN, and local apps—are virtualised inside Proxmox using either VMs or LXC containers.
 
-It gives me complete control over networking in my flat, offers isolation between services, and serves as a hands-on platform to learn sysadmin, networking, and Linux infrastructure.
+It gives me complete control over networking in my apartment, offers isolation between services, and serves as a hands-on platform to learn sysadmin, networking, Linux infrastructure and the Linux command line.
 
 ---
 
@@ -27,7 +27,7 @@ It gives me complete control over networking in my flat, offers isolation betwee
 
 [pfSense](https://www.pfsense.org/) is an open-source firewall and router OS, running as a **virtual machine** inside Proxmox. It handles:
 
-- Routing across all subnets (LAN, WLAN, SWITCH_LAN, VPN)
+- Routing across all subnets (LAN, WLAN, SWITCH_LAN, WG_VPN)
 - DNS forwarding and static DHCP assignments
 - VLAN separation and firewall rules
 - WireGuard VPN endpoint for secure remote access
@@ -59,8 +59,8 @@ It gives me complete control over networking in my flat, offers isolation betwee
 
 [Nginx](https://nginx.org/) is used as a reverse proxy, also running as a container:
 
-- Routes friendly domain names (like `proxmox.local`) to their proper internal services
-- Exposes internal services (like :8006) through clean HTTPS URLs, removing the need to remember ports
+- Routes friendly domain names (like `proxmox.local`) to their proper internal services + their associated port, as Pi-hole is unable to route to a ip + port
+- Exposes internal services (like :8006) through clean HTTPS URLs, removing the need to remember ports (as mentioned above)
 - DNS for each local domain is resolved by Pi-hole, then routed internally via Nginx
 
 ---
@@ -88,7 +88,7 @@ The network is split into multiple VLAN-backed subnets, each with a specific rol
 
 > **What is CIDR?**  
 > CIDR (Classless Inter-Domain Routing) defines IP address ranges.  
-> A subnet like `192.168.1.0/24` uses the first 24 bits for the network portion, covering `192.168.1.0` to `192.168.1.255`.  
+> A subnet like `192.168.1.0/24` uses the first 24 bits for the network portion, covering `192.168.1.0` to `192.168.1.255`.
 
 ---
 
@@ -97,14 +97,13 @@ The network is split into multiple VLAN-backed subnets, each with a specific rol
 Everything is mounted inside a compact 3D-printed 10-inch rack:
 
 - [Modular 10‑inch server rack (reworked)](https://www.printables.com/model/1090551-modular-10-inch-server-rack-reworked)  
-- [Modular 10‑inch server rack (220×200 bed variant)](https://www.printables.com/model/1173071-modular-10-inch-server-rack-reworked-220-x-200-bed)  
+- [Modular 10‑inch server rack (220×200 bed variant)](https://www.printables.com/model/1173071-modular-10-inch-server-rack-reworked-220-x-200-bed)
 
 ### Rack contents:
 
 - **Topton N100 mini PC** (bare-metal Proxmox host)
 - **TP-Link Omada 5-port managed switch** (VLAN support)
-- **Raspberry Pi** (for testing and future projects)
-- **Power distribution** (USB-C and 12V rail)
+- **Raspberry Pi** (for future projects such as a screen monitoring the homelab or some other analysis tool)
 - **JetKVM** (for BIOS-level headless access)
 
 ---
@@ -115,9 +114,9 @@ To set up the Topton without plugging in a display, keyboard, or mouse, I used a
 
 I used it to:
 
-- Access the BIOS remotely
-- Perform the full Proxmox installation with no physical monitor
-- Recover from potential lockouts or system config issues
+- Access the BIOS remotely  
+- Perform the full Proxmox installation with no physical monitor  
+- Recover from potential lockouts or system config issues  
 
 The JetKVM is now permanently mounted in the rack for easy access and recovery.
 
@@ -127,15 +126,12 @@ The JetKVM is now permanently mounted in the rack for easy access and recovery.
 
 ## 📡 Network Upgrades
 
-Originally I started with a basic consumer router, but the Wi-Fi coverage was poor. Interference in my flat caused devices to drop off or DNS queries to stall.
+Originally, I tried to set my ISP-provided modem to access point mode, but it didn’t support it. So I bought the cheapest standalone router I could find, but the Wi-Fi signal struggled with interference in my flat, and speeds dropped below 10 Mbps for both upload and download. I ended up upgrading to something stronger.
 
 Upgrades:
 
 - Switched to a **TP-Link AX1500 Wi-Fi 6 router**, now running in **access point mode** (routing is done by pfSense)
-- Added a **TP-Link Omada 5-port managed switch**, giving me:
-  - VLAN support
-  - Port tagging and trunking
-  - Easier debugging with per-port stats
+- Added a **TP-Link Omada 5-port managed switch**, giving me VLAN support in the future 
 
 ---
 
@@ -144,14 +140,39 @@ Upgrades:
 Many internal services (like Proxmox) use "non-standard" ports, e.g. `:8006`. To simplify access:
 
 - I configured **Pi-hole** to resolve domains like:
-  - `proxmox.local` → Nginx container IP
-  - `pihole.local`  → Nginx container IP
-- Nginx listens on port 443 and proxies each domain to the appropriate container and port
-- This allows access to any internal service via clean HTTPS domains, even remotely through the VPN
+  - `proxmox.local` → Nginx container IP  
+  - `pihole.local`  → Nginx container IP  
+- Nginx listens on port 443 and proxies each domain to the appropriate container and port  
+- This allows access to any internal service via clean HTTPS domains, even remotely through the VPN  
+
+---
+
+## 🧩 3D Printed Panels
+
+![📸 Photo placeholder – 3D homelab rack setup coming soon!](https://via.placeholder.com/800x450?text=Photo+of+3D-Printed+Homelab+Rack+Coming+Soon)
+
+To make the setup neat and secure, I designed custom front panels for each rack-mounted device. These panels are 3D printed and designed to fit into the modular 10-inch rack system listed above.
+
+### STL Files
+
+All STLs are available in the **main directory of this repository**.
+
+| Filename                        | Description                                                                 |
+|--------------------------------|-----------------------------------------------------------------------------|
+| `1u_panel_pi_kvm_v1.stl`       | 1U panel for a Raspberry Pi and JetKVM. The JetKVM fits tightly, and I manually punched a hole through the plastic, aligned with one of the Pi’s existing mounting holes, to screw it into place securely. |
+| `2u_panel_topton_router.stl`   | 2U panel for the **Topton N100 mini PC**.                                  |
+| `1u_panel_ES205G.stl`          | 1U panel for the **TP-Link Omada 5-port managed switch (ES205G)**.         |
+
+### Attribution
+
+These models were built using base measurements and STLs provided by:
+
+- [Raspberry Pi 10-inch Rack Mount by esluyter](https://www.printables.com/model/1185545-raspberry-pi-3b4b5b-10-inch-rack-mount) – used for Pi alignment and sizing  
+- [Modular 10-inch Rack by MickMake](https://www.printables.com/model/1090551-modular-10-inch-server-rack-reworked/files) – used for the blank 1U rack faceplates and the overall rack frame  
 
 ---
 
 ## 🔄 Future Plans
 
-- Add **Home Assistant** for smart home automation, presence detection, and dashboards
-- Eventually mount a small **status screen** on the front of the rack (e.g. Pi-driven) to display temperatures, network stats, and service uptime
+- Add **Home Assistant** for smart home automation, presence detection, and dashboards  
+- Eventually mount a small **status screen** on the front of the rack (e.g. Pi-driven) to display temperatures, network stats, and service uptime  
