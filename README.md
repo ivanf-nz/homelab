@@ -160,7 +160,9 @@ All STLs are available in the **main directory of this repository**.
 | Filename                        | Description                                                                 |
 |--------------------------------|-----------------------------------------------------------------------------|
 | `1u_panel_pi_kvm_v1.stl`       | 1U panel for a Raspberry Pi and JetKVM. The JetKVM fits tightly, and I manually punched a hole through the plastic, aligned with one of the Pi’s existing mounting holes, to screw it into place securely. |
-| `2u_panel_topton_router.stl`   | 2U panel for the **Topton N100 mini PC**.                                  |
+| `1u_panel_topton_left.stl`     | Left side of the bottom section of the Topton N100 mini PC panel (split for easier 3D printing). |
+| `1u_panel_topton_right.stl`    | Right side of the bottom section of the Topton N100 mini PC panel (split for easier 3D printing). |
+| `1u_panel_topton_upper.stl`    | Top section of the Topton N100 mini PC panel (completes the full 2U front). |
 | `1u_panel_ES205G.stl`          | 1U panel for the **TP-Link Omada 5-port managed switch (ES205G)**.         |
 
 ### Attribution
@@ -168,8 +170,8 @@ All STLs are available in the **main directory of this repository**.
 These models were built using base measurements and STLs provided by:
 
 - [Raspberry Pi 10-inch Rack Mount by esluyter](https://www.printables.com/model/1185545-raspberry-pi-3b4b5b-10-inch-rack-mount) – used for Pi alignment and sizing  
-- [Modular 10-inch Rack by MickMake](https://www.printables.com/model/1090551-modular-10-inch-server-rack-reworked/files) – used for the blank 1U rack faceplates and the overall rack frame
-- [RackStuds by Eirik Jeppesen](https://www.printables.com/model/1233475-rackstuds-for-m6-106-racks/files) - used for the 3d printed M6 screws because proper server rack screws are very expensive  
+- [Modular 10-inch Rack by MickMake](https://www.printables.com/model/1090551-modular-10-inch-server-rack-reworked/files) – used for the blank 1U rack faceplates and the overall rack frame  
+- [RackStuds by Eirik Jeppesen](https://www.printables.com/model/1233475-rackstuds-for-m6-106-racks/files) – used for the 3D-printed M6 screws because proper server rack screws are very expensive  
 
 ---
 
